@@ -9,24 +9,27 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
+  interface LoginForm {}
+  interface RegistrationForm {}
   interface UserAuthenticator {
-    /**
-    * The first name
-    */
-    'first': string;
-    /**
-    * The last name
-    */
-    'last': string;
-    /**
-    * The middle name
-    */
-    'middle': string;
+    'landingTab': string;
   }
 }
 
 declare global {
 
+
+  interface HTMLLoginFormElement extends Components.LoginForm, HTMLStencilElement {}
+  var HTMLLoginFormElement: {
+    prototype: HTMLLoginFormElement;
+    new (): HTMLLoginFormElement;
+  };
+
+  interface HTMLRegistrationFormElement extends Components.RegistrationForm, HTMLStencilElement {}
+  var HTMLRegistrationFormElement: {
+    prototype: HTMLRegistrationFormElement;
+    new (): HTMLRegistrationFormElement;
+  };
 
   interface HTMLUserAuthenticatorElement extends Components.UserAuthenticator, HTMLStencilElement {}
   var HTMLUserAuthenticatorElement: {
@@ -34,27 +37,22 @@ declare global {
     new (): HTMLUserAuthenticatorElement;
   };
   interface HTMLElementTagNameMap {
+    'login-form': HTMLLoginFormElement;
+    'registration-form': HTMLRegistrationFormElement;
     'user-authenticator': HTMLUserAuthenticatorElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface LoginForm extends JSXBase.HTMLAttributes<HTMLLoginFormElement> {}
+  interface RegistrationForm extends JSXBase.HTMLAttributes<HTMLRegistrationFormElement> {}
   interface UserAuthenticator extends JSXBase.HTMLAttributes<HTMLUserAuthenticatorElement> {
-    /**
-    * The first name
-    */
-    'first'?: string;
-    /**
-    * The last name
-    */
-    'last'?: string;
-    /**
-    * The middle name
-    */
-    'middle'?: string;
+    'landingTab'?: string;
   }
 
   interface IntrinsicElements {
+    'login-form': LoginForm;
+    'registration-form': RegistrationForm;
     'user-authenticator': UserAuthenticator;
   }
 }
