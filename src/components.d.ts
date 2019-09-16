@@ -9,7 +9,7 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface MyComponent {
+  interface UserAuthenticator {
     /**
     * The first name
     */
@@ -28,18 +28,18 @@ export namespace Components {
 declare global {
 
 
-  interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {}
-  var HTMLMyComponentElement: {
-    prototype: HTMLMyComponentElement;
-    new (): HTMLMyComponentElement;
+  interface HTMLUserAuthenticatorElement extends Components.UserAuthenticator, HTMLStencilElement {}
+  var HTMLUserAuthenticatorElement: {
+    prototype: HTMLUserAuthenticatorElement;
+    new (): HTMLUserAuthenticatorElement;
   };
   interface HTMLElementTagNameMap {
-    'my-component': HTMLMyComponentElement;
+    'user-authenticator': HTMLUserAuthenticatorElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface MyComponent extends JSXBase.HTMLAttributes<HTMLMyComponentElement> {
+  interface UserAuthenticator extends JSXBase.HTMLAttributes<HTMLUserAuthenticatorElement> {
     /**
     * The first name
     */
@@ -55,7 +55,7 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
-    'my-component': MyComponent;
+    'user-authenticator': UserAuthenticator;
   }
 }
 
