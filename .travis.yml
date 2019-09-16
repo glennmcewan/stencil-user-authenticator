@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+  - "10"
+
+script:
+  - npm run build
+  - npm test
+
+before_deploy:
+  - |
+    sed -i "s|href=\"/|href=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
+  - |
+    sed -i "s|src=\"/|src=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
+
+deploy:
+  provider: pages
+  local-dir: www
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  committer-from-gh: true
+  on:
+    branch: master
