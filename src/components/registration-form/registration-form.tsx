@@ -1,4 +1,4 @@
-import { Component, h, Prop, State } from "@stencil/core";
+import { Component, h, State } from "@stencil/core";
 import { ValidationService } from "../../validation/ValidationService";
 import { ValidationState } from "../../validation/ValidationState";
 import { Constraints } from "../../validation/Constraints";
