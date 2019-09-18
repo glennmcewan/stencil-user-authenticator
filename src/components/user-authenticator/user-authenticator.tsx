@@ -26,9 +26,9 @@ export class UserAuthenticator {
             <a class={this.activeTab === 'registration' ? 'nav-link active' : 'nav-link'} id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
           </li>
         </ul>
-        <div class="tab-content" id="userAuthenticatorContent">
-          <div class={this.activeTab === 'login' ? 'tab-pane fade show active' : 'tab-pane fade'} id="login" role="tabpanel" aria-labelledby="login-tab"><login-form></login-form></div>
-          <div class={this.activeTab === 'registration' ? 'tab-pane fade show active' : 'tab-pane fade'} id="register" role="tabpanel" aria-labelledby="register-tab"><registration-form></registration-form></div>
+        <div class="tab-content p-4" id="userAuthenticatorContent">
+          <div class={this.activeTab === 'login' ? 'tab-pane show active' : 'tab-pane'} id="login" role="tabpanel" aria-labelledby="login-tab"><login-form></login-form></div>
+          <div class={this.activeTab === 'registration' ? 'tab-pane show active' : 'tab-pane'} id="register" role="tabpanel" aria-labelledby="register-tab"><registration-form></registration-form></div>
         </div>
       </div>
     );
