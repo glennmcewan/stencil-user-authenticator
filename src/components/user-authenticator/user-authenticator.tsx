@@ -1,4 +1,4 @@
-import { Component, State, h, Prop } from '@stencil/core';
+import { Component, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'user-authenticator',
