@@ -12,7 +12,7 @@ export namespace Components {
   interface LoginForm {}
   interface RegistrationForm {}
   interface UserAuthenticator {
-    'landingTab': string;
+    'defaultTab': string;
   }
 }
 
@@ -47,7 +47,7 @@ declare namespace LocalJSX {
   interface LoginForm extends JSXBase.HTMLAttributes<HTMLLoginFormElement> {}
   interface RegistrationForm extends JSXBase.HTMLAttributes<HTMLRegistrationFormElement> {}
   interface UserAuthenticator extends JSXBase.HTMLAttributes<HTMLUserAuthenticatorElement> {
-    'landingTab'?: string;
+    'defaultTab'?: string;
   }
 
   interface IntrinsicElements {
