@@ -2,7 +2,6 @@ import { Component, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'user-authenticator',
-  styleUrl: 'user-authenticator.css',
   shadow: false
 })
 export class UserAuthenticator {
