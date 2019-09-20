@@ -2,6 +2,7 @@ import { Component, h, State } from "@stencil/core";
 import { ValidationService } from "../../validation/ValidationService";
 import { ValidationState } from "../../validation/ValidationState";
 import { Constraints } from "../../validation/Constraints";
+import { FormService, FormInputsCollectionInterface } from "../../services/FormService";
 
 @Component({
   tag: 'registration-form'
@@ -9,51 +10,48 @@ import { Constraints } from "../../validation/Constraints";
 export class RegistrationForm {
   @State() validationState: ValidationState;
 
-  private validator: ValidationService = new ValidationService();
+  private service: FormService;
 
-  private inputMap = {
-    name: null,
-    email: null,
-    password: null,
-  };
-
-  validateComponent() {
-    const constraints = new Constraints;
-
-    this.validationState = this.validator.validateMany([
-      {
+  componentWillLoad() {
+    let inputMap: FormInputsCollectionInterface = {
+      'name': {
         identifier: 'name',
         name: 'Full name',
-        value: this.inputMap.name,
-        constraints: constraints.getNameConstraints(),
+        value: null,
+        constraints: Constraints.getNameConstraints(),
       },
-      {
+      'email': {
         identifier: 'email',
         name: 'Email',
-        value: this.inputMap.email,
-        constraints: constraints.getEmailConstraints(),
+        value: null,
+        constraints: Constraints.getEmailConstraints(),
       },
-      {
+      'password': {
         identifier: 'password',
         name: 'Password',
-        value: this.inputMap.password,
-        constraints: constraints.getPasswordConstraints(),
+        value: null,
+        constraints: Constraints.getPasswordConstraints(),
       }
-    ]);
+    };
+
+    this.service = new FormService(
+      new ValidationService(),
+      inputMap
+    );
+  }
+
+  validateComponent() {
+    this.validationState = this.service.validateForm();
   }
 
   isFormValid() {
-    if (typeof this.validationState === 'undefined') {
-      return false;
-    }
-
-    return this.validationState.getErrors().length === 0;
+    return this.service.isFormValid();
   }
 
   handleInputChange(event: KeyboardEvent, identifier: string) {
     const input = event.target as HTMLInputElement;
 
-    this.inputMap[identifier] = input.value;
+    this.service.setInputValue(identifier, input.value);
 
     this.validateComponent();
   }
@@ -64,27 +62,8 @@ export class RegistrationForm {
     console.log(event);
   }
 
-  inputHasErrors(identifier: string) {
-    if (null === this.inputMap[identifier]) {
-      return false;
-    }
-
-    return this.validationState.getErrorsFor(identifier).length > 0;
-  }
-
-  getInputClasses(identifier: string): string {
-    let classes = ['form-control'];
-
-    if (null !== this.inputMap[identifier]) {
-      let errors = this.validationState.getErrorsFor(identifier);
-      classes.push(errors.length > 0 ? 'is-invalid' : 'is-valid');
-    }
-
-    return classes.join(' ');
-  }
-
   renderErrorsFor(identifier: string) {
-    if (null === this.inputMap[identifier]) {
+    if (null === this.service.getInput(identifier).value) {
       return;
     }
 
@@ -101,18 +80,18 @@ export class RegistrationForm {
     return (
       <form onSubmit={event => this.handleSubmit(event)}>
         <div class="form-group">
-          <label htmlFor="inputName" class={this.inputHasErrors('name') ? 'text-danger' : ''}>Full Name</label>
-          <input type="text" class={this.getInputClasses('name')} id="inputName" placeholder="Full name" value={this.inputMap.name || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'name')} />
+          <label htmlFor="inputName" class={this.service.inputHasErrors('name') ? 'text-danger' : ''}>Full Name</label>
+          <input type="text" class={this.service.getClassesForInput('name')} id="inputName" placeholder="Full name" value={this.service.getInput('name').value} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'name')} />
           {this.renderErrorsFor('name')}
         </div>
         <div class="form-group">
-          <label htmlFor="inputEmail" class={this.inputHasErrors('email') ? 'text-danger' : ''}>Email</label>
-          <input type="email" class={this.getInputClasses('email')} id="inputEmail" placeholder="Email address" value={this.inputMap.email || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'email')} />
+          <label htmlFor="inputEmail" class={this.service.inputHasErrors('email') ? 'text-danger' : ''}>Email</label>
+          <input type="email" class={this.service.getClassesForInput('email')} id="inputEmail" placeholder="Email address" value={this.service.getInput('email').value} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'email')} />
           {this.renderErrorsFor('email')}
         </div>
         <div class="form-group">
-          <label htmlFor="inputPassword" class={this.inputHasErrors('password') ? 'text-danger' : ''}>Password</label>
-          <input type="password" class={this.getInputClasses('password')} id="inputPassword" placeholder="Password" value={this.inputMap.password || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'password')} />
+          <label htmlFor="inputPassword" class={this.service.inputHasErrors('password') ? 'text-danger' : ''}>Password</label>
+          <input type="password" class={this.service.getClassesForInput('password')} id="inputPassword" placeholder="Password" value={this.service.getInput('password').value} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'password')} />
           {this.renderErrorsFor('password')}
         </div>
         <button type="submit" class="btn btn-primary" disabled={false === this.isFormValid()}>Register</button>

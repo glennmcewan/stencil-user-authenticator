@@ -1,13 +1,13 @@
 import { ConstraintInterface } from "./ConstraintInterface";
 
 export class Constraints {
-  getNameConstraints(): ConstraintInterface[] {
+  static getNameConstraints(): ConstraintInterface[] {
     return [
       (value: string) => value === '' ? 'Name cannot be empty' : null,
     ]
   }
 
-  getPasswordConstraints(): ConstraintInterface[] {
+  static getPasswordConstraints(): ConstraintInterface[] {
     return [
       (value: string) => '' === value ? 'Password cannot be empty' : null,
 
@@ -17,7 +17,7 @@ export class Constraints {
     ];
   }
 
-  getEmailConstraints(): ConstraintInterface[] {
+  static getEmailConstraints(): ConstraintInterface[] {
     return [
       (value: string) => '' === value ? 'Email cannot be empty' : null,
 
