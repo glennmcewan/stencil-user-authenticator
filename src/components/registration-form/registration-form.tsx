@@ -9,32 +9,34 @@ import { Constraints } from "../../validation/Constraints";
 export class RegistrationForm {
   @State() validationState: ValidationState;
 
-  private inputName: string;
-  private inputEmail: string;
-  private inputPassword: string;
-
   private validator: ValidationService = new ValidationService();
+
+  private inputMap = {
+    name: null,
+    email: null,
+    password: null,
+  };
 
   validateComponent() {
     const constraints = new Constraints;
 
     this.validationState = this.validator.validateMany([
       {
-        identifier: 'inputName',
+        identifier: 'name',
         name: 'Full name',
-        value: this.inputName,
+        value: this.inputMap.name,
         constraints: constraints.getNameConstraints(),
       },
       {
-        identifier: 'inputEmail',
+        identifier: 'email',
         name: 'Email',
-        value: this.inputEmail,
+        value: this.inputMap.email,
         constraints: constraints.getEmailConstraints(),
       },
       {
-        identifier: 'inputPassword',
+        identifier: 'password',
         name: 'Password',
-        value: this.inputPassword,
+        value: this.inputMap.password,
         constraints: constraints.getPasswordConstraints(),
       }
     ]);
@@ -51,13 +53,19 @@ export class RegistrationForm {
   handleInputChange(event: KeyboardEvent, identifier: string) {
     const input = event.target as HTMLInputElement;
 
-    this[identifier] = input.value;
+    this.inputMap[identifier] = input.value;
 
     this.validateComponent();
   }
 
+  handleSubmit(event: Event) {
+    event.preventDefault();
+
+    console.log(event);
+  }
+
   inputHasErrors(identifier: string) {
-    if (typeof this[identifier] === 'undefined') {
+    if (null === this.inputMap[identifier]) {
       return false;
     }
 
@@ -67,7 +75,7 @@ export class RegistrationForm {
   getInputClasses(identifier: string): string {
     let classes = ['form-control'];
 
-    if (typeof this[identifier] !== 'undefined') {
+    if (null !== this.inputMap[identifier]) {
       let errors = this.validationState.getErrorsFor(identifier);
       classes.push(errors.length > 0 ? 'is-invalid' : 'is-valid');
     }
@@ -76,7 +84,7 @@ export class RegistrationForm {
   }
 
   renderErrorsFor(identifier: string) {
-    if (typeof this[identifier] === 'undefined') {
+    if (null === this.inputMap[identifier]) {
       return;
     }
 
@@ -91,21 +99,21 @@ export class RegistrationForm {
 
   render() {
     return (
-      <form>
+      <form onSubmit={event => this.handleSubmit(event)}>
         <div class="form-group">
-          <label htmlFor="inputName" class={this.inputHasErrors('inputName') ? 'text-danger' : ''}>Full Name</label>
-          <input type="text" class={this.getInputClasses('inputName')} id="inputName" placeholder="Full name" value={this.inputName || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'inputName')} />
-          {this.renderErrorsFor('inputName')}
+          <label htmlFor="inputName" class={this.inputHasErrors('name') ? 'text-danger' : ''}>Full Name</label>
+          <input type="text" class={this.getInputClasses('name')} id="inputName" placeholder="Full name" value={this.inputMap.name || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'name')} />
+          {this.renderErrorsFor('name')}
         </div>
         <div class="form-group">
-          <label htmlFor="inputEmail" class={this.inputHasErrors('inputEmail') ? 'text-danger' : ''}>Email</label>
-          <input type="email" class={this.getInputClasses('inputEmail')} id="inputEmail" placeholder="Email address" value={this.inputEmail || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'inputEmail')} />
-          {this.renderErrorsFor('inputEmail')}
+          <label htmlFor="inputEmail" class={this.inputHasErrors('email') ? 'text-danger' : ''}>Email</label>
+          <input type="email" class={this.getInputClasses('email')} id="inputEmail" placeholder="Email address" value={this.inputMap.email || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'email')} />
+          {this.renderErrorsFor('email')}
         </div>
         <div class="form-group">
-          <label htmlFor="inputPassword" class={this.inputHasErrors('inputPassword') ? 'text-danger' : ''}>Password</label>
-          <input type="password" class={this.getInputClasses('inputPassword')} id="inputPassword" placeholder="Password" value={this.inputPassword || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'inputPassword')} />
-          {this.renderErrorsFor('inputPassword')}
+          <label htmlFor="inputPassword" class={this.inputHasErrors('password') ? 'text-danger' : ''}>Password</label>
+          <input type="password" class={this.getInputClasses('password')} id="inputPassword" placeholder="Password" value={this.inputMap.password || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'password')} />
+          {this.renderErrorsFor('password')}
         </div>
         <button type="submit" class="btn btn-primary" disabled={false === this.isFormValid()}>Register</button>
       </form>
