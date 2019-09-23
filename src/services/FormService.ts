@@ -1,13 +1,14 @@
 import { ValidationState } from "../validation/ValidationState";
 import { ValidationService } from "../validation/ValidationService";
 import { ValidationSubjectInterface } from "../validation/ValidationSubjectInterface";
+import { ConstraintInterface } from "../validation/ConstraintInterface";
 
 export class FormService {
   private validator: ValidationService;
   private state: ValidationState;
-  private inputs: FormInputsCollectionInterface;
+  private inputs: FormInputCollectionInterface;
 
-  constructor(validator: ValidationService, inputs: FormInputsCollectionInterface) {
+  constructor(validator: ValidationService, inputs: FormInputCollectionInterface) {
     this.validator = validator;
     this.inputs = inputs;
   }
@@ -28,6 +29,10 @@ export class FormService {
     }
 
     return this.state.getErrors().length === 0;
+  }
+
+  getState(): ValidationState {
+    return this.state;
   }
 
   getInput(identifier: string): ValidationSubjectInterface {
@@ -58,6 +63,20 @@ export class FormService {
   }
 }
 
-export interface FormInputsCollectionInterface {
-  [key: string]: ValidationSubjectInterface
+export interface FormInputCollectionInterface {
+  [key: string]: FormInput
+}
+
+export class FormInput implements ValidationSubjectInterface {
+  identifier: string;
+  name?: string;
+  value: any;
+  constraints: ConstraintInterface[];
+
+  constructor(identifier: string, name: string, value: any, constraints: ConstraintInterface[]) {
+    this.identifier = identifier;
+    this.name = name;
+    this.value = value;
+    this.constraints = constraints;
+  }
 }
