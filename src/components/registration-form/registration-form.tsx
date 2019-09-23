@@ -2,6 +2,8 @@ import { Component, h, State } from "@stencil/core";
 import { ValidationService } from "../../validation/ValidationService";
 import { ValidationState } from "../../validation/ValidationState";
 import { Constraints } from "../../validation/Constraints";
+import { FormService, FormInputCollectionInterface, FormInput } from "../../services/FormService";
+import { FormTemplatingService } from "../../services/FormTemplatingService";
 
 @Component({
   tag: 'registration-form'
@@ -9,105 +11,61 @@ import { Constraints } from "../../validation/Constraints";
 export class RegistrationForm {
   @State() validationState: ValidationState;
 
-  private inputName: string;
-  private inputEmail: string;
-  private inputPassword: string;
+  private service: FormService;
+  private templating: FormTemplatingService;
 
-  private validator: ValidationService = new ValidationService();
+  componentWillLoad() {
+    let inputMap: FormInputCollectionInterface = {
+      'name': new FormInput('name', 'Full name', null, Constraints.getNameConstraints()),
+      'email': new FormInput('email', 'Email', null, Constraints.getEmailConstraints()),
+      'password': new FormInput('password', 'Password', null, Constraints.getPasswordConstraints()),
+    };
 
-  validateComponent() {
-    const constraints = new Constraints;
+    this.service = new FormService(
+      new ValidationService(),
+      inputMap
+    );
 
-    this.validationState = this.validator.validateMany([
-      {
-        identifier: 'inputName',
-        name: 'Full name',
-        value: this.inputName,
-        constraints: constraints.getNameConstraints(),
-      },
-      {
-        identifier: 'inputEmail',
-        name: 'Email',
-        value: this.inputEmail,
-        constraints: constraints.getEmailConstraints(),
-      },
-      {
-        identifier: 'inputPassword',
-        name: 'Password',
-        value: this.inputPassword,
-        constraints: constraints.getPasswordConstraints(),
-      }
-    ]);
-  }
-
-  isFormValid() {
-    if (typeof this.validationState === 'undefined') {
-      return false;
-    }
-
-    return this.validationState.getErrors().length === 0;
+    this.templating = new FormTemplatingService(this.service);
   }
 
   handleInputChange(event: KeyboardEvent, identifier: string) {
     const input = event.target as HTMLInputElement;
 
-    this[identifier] = input.value;
+    this.service.setInputValue(identifier, input.value);
 
     this.validateComponent();
   }
 
-  inputHasErrors(identifier: string) {
-    if (typeof this[identifier] === 'undefined') {
-      return false;
-    }
+  handleSubmit(event: Event) {
+    event.preventDefault();
 
-    return this.validationState.getErrorsFor(identifier).length > 0;
+    console.log(event);
   }
 
-  getInputClasses(identifier: string): string {
-    let classes = ['form-control'];
-
-    if (typeof this[identifier] !== 'undefined') {
-      let errors = this.validationState.getErrorsFor(identifier);
-      classes.push(errors.length > 0 ? 'is-invalid' : 'is-valid');
-    }
-
-    return classes.join(' ');
-  }
-
-  renderErrorsFor(identifier: string) {
-    if (typeof this[identifier] === 'undefined') {
-      return;
-    }
-
-    return (
-      <ul>
-        {this.validationState.getErrorsFor(identifier).map(error => {
-          return <li>{error.message}</li>;
-        })}
-      </ul>
-    );
+  private validateComponent() {
+    this.validationState = this.service.validateForm();
   }
 
   render() {
     return (
-      <form>
+      <form onSubmit={event => this.handleSubmit(event)}>
         <div class="form-group">
-          <label htmlFor="inputName" class={this.inputHasErrors('inputName') ? 'text-danger' : ''}>Full Name</label>
-          <input type="text" class={this.getInputClasses('inputName')} id="inputName" placeholder="Full name" value={this.inputName || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'inputName')} />
-          {this.renderErrorsFor('inputName')}
+          <label htmlFor="inputName" class={this.service.inputHasErrors('name') ? 'text-danger' : ''}>Full Name</label>
+          <input type="text" class={this.service.getClassesForInput('name')} id="inputName" placeholder="Full name" value={this.service.getInput('name').value} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'name')} />
+          {this.templating.renderErrorsForInput('name')}
         </div>
         <div class="form-group">
-          <label htmlFor="inputEmail" class={this.inputHasErrors('inputEmail') ? 'text-danger' : ''}>Email</label>
-          <input type="email" class={this.getInputClasses('inputEmail')} id="inputEmail" placeholder="Email address" value={this.inputEmail || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'inputEmail')} />
-          {this.renderErrorsFor('inputEmail')}
+          <label htmlFor="inputEmail" class={this.service.inputHasErrors('email') ? 'text-danger' : ''}>Email</label>
+          <input type="email" class={this.service.getClassesForInput('email')} id="inputEmail" placeholder="Email address" value={this.service.getInput('email').value} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'email')} />
+          {this.templating.renderErrorsForInput('email')}
         </div>
         <div class="form-group">
-          <label htmlFor="inputPassword" class={this.inputHasErrors('inputPassword') ? 'text-danger' : ''}>Password</label>
-          <input type="password" class={this.getInputClasses('inputPassword')} id="inputPassword" placeholder="Password" value={this.inputPassword || ''} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'inputPassword')} />
-          {this.renderErrorsFor('inputPassword')}
+          <label htmlFor="inputPassword" class={this.service.inputHasErrors('password') ? 'text-danger' : ''}>Password</label>
+          <input type="password" class={this.service.getClassesForInput('password')} id="inputPassword" placeholder="Password" value={this.service.getInput('password').value} onInput={(event: KeyboardEvent) => this.handleInputChange(event, 'password')} />
+          {this.templating.renderErrorsForInput('password')}
         </div>
-        <button type="submit" class="btn btn-primary" disabled={false === this.isFormValid()}>Register</button>
+        <button type="submit" class="btn btn-primary" disabled={!this.service.isFormValid()}>Register</button>
       </form>
     );
   }
