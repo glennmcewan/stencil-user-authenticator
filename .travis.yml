@@ -10,23 +10,9 @@ install:
 
 script:
   - docker-compose up test
-  - "ls -lah ${TRAVIS_BUILD_DIR}"
-  - "ls -lah ${TRAVIS_BUILD_DIR}/www"
-  - sudo chown -R travis:travis "${TRAVIS_BUILD_DIR}/www"
-  - "ls -lah ${TRAVIS_BUILD_DIR}"
-  - "ls -lah ${TRAVIS_BUILD_DIR}/www"
-  - |
-    sed -i "s|href=\"/|href=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
-  - |
-    sed -i "s|src=\"/|src=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
 
 before_deploy:
-  - |
-    docker-compose up -d app
-  - |
-    docker cp stenciluserauthenticator_app_1:/usr/src/app/www "${TRAVIS_BUILD_DIR}"
-  - |
-    docker-compose down
+  - sudo chown -R travis:travis "${TRAVIS_BUILD_DIR}/www"
   - |
     sed -i "s|href=\"/|href=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
   - |
