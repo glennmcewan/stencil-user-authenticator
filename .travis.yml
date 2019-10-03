@@ -5,11 +5,11 @@ services:
   - docker
 
 install:
-  - docker-compose up
+  - cd "${TRAVIS_BUILD_DIR}"
+  - docker-compose run app npm run build
 
 script:
-  - npm run build
-  - npm test
+  - docker-compose up test
 
 before_deploy:
   - |
