@@ -1,12 +1,19 @@
 language: node_js
 node_js:
   - "10"
+services:
+  - docker
+
+install:
+  - cd "${TRAVIS_BUILD_DIR}"
+  - docker-compose run app npm run build
 
 script:
-  - npm run build
-  - npm test
+  - docker-compose up test
 
 before_deploy:
+  - |
+    docker cp stencil-user-authenticator_app_1:/usr/src/www "${TRAVIS_BUILD_DIR}"
   - |
     sed -i "s|href=\"/|href=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
   - |

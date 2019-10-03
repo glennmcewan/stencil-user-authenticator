@@ -14,5 +14,9 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null // disable service workers
     }
-  ]
+  ],
+  testing: {
+    browserArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
+    browserExecutablePath: 'google-chrome-unstable'
+  }
 };
