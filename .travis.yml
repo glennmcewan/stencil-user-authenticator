@@ -12,6 +12,9 @@ script:
   - docker-compose up test
   - "ls -lah ${TRAVIS_BUILD_DIR}"
   - "ls -lah ${TRAVIS_BUILD_DIR}/www"
+  - sudo chown -R travis:travis "${TRAVIS_BUILD_DIR}/www"
+  - "ls -lah ${TRAVIS_BUILD_DIR}"
+  - "ls -lah ${TRAVIS_BUILD_DIR}/www"
   - |
     sed -i "s|href=\"/|href=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
   - |
