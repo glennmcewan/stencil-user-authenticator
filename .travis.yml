@@ -13,8 +13,6 @@ script:
 
 before_deploy:
   - |
-    docker cp stencil-user-authenticator_app_1:/usr/src/www "${TRAVIS_BUILD_DIR}"
-  - |
     sed -i "s|href=\"/|href=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
   - |
     sed -i "s|src=\"/|src=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
