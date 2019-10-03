@@ -15,7 +15,7 @@ before_deploy:
   - |
     docker-compose up -d app
   - |
-    docker cp stencil-user-authenticator_app_1:/usr/src/www "${TRAVIS_BUILD_DIR}"
+    docker cp stenciluserauthenticator_app_1:/usr/src/www "${TRAVIS_BUILD_DIR}"
   - |
     docker-compose down
   - |
