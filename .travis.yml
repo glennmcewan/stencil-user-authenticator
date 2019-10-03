@@ -12,12 +12,7 @@ script:
   - docker-compose up test
 
 before_deploy:
-  - |
-    docker-compose up -d app
-  - |
-    docker cp stenciluserauthenticator_app_1:/usr/src/app/www "${TRAVIS_BUILD_DIR}"
-  - |
-    docker-compose down
+  - sudo chown -R travis:travis "${TRAVIS_BUILD_DIR}/www"
   - |
     sed -i "s|href=\"/|href=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
   - |
