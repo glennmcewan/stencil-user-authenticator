@@ -14,44 +14,24 @@ Stencil combines the best concepts of the most popular frontend frameworks into 
 
 Stencil components are just Web Components, so they work in any major framework or with no framework at all.
 
-## Getting Started
+## Usage with Docker
 
-To start building a new web component using Stencil, clone this repo to a new directory:
-
+To get started, run docker-compose up to create the "app" and "test" containers:
 ```bash
-git clone https://github.com/ionic-team/stencil-component-starter.git my-component
-cd my-component
-git remote rm origin
+docker-compose up
 ```
 
-and run:
-
+To run the tests in its own container:
 ```bash
-npm install
-npm start
+docker-compose up test
 ```
 
-To build the component for production, run:
-
+If you're on Windows, and you need the `node_modules` folder in the host (e.g. for intellisense in VS Code), run this command to copy the `node_modules` from the "app" container into the repository root:
 ```bash
-npm run build
+docker cp stencil-user-authenticator_app_1:/usr/src/app/node_modules ./
 ```
 
-To run the unit tests for the components, run:
-
-```bash
-npm test
-```
-
-Need help? Check out our docs [here](https://stenciljs.com/docs/my-first-component).
-
-
-## Naming Components
-
-When creating new component tags, we recommend _not_ using `stencil` in the component name (ex: `<stencil-datepicker>`). This is because the generated component has little to nothing to do with Stencil; it's just a web component!
-
-Instead, use a prefix that fits your company or any name for a group of related components. For example, all of the Ionic generated web components use the prefix `ion`.
-
+> Note: You may need to change `stencil-user-authenticator` in the previous command if you cloned this repo into a different directory
 
 ## Using this component
 
