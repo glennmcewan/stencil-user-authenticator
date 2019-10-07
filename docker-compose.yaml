@@ -17,6 +17,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: test
+    cap_add:
+      - SYS_ADMIN
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
