@@ -7,9 +7,10 @@ services:
 install:
   - cd "${TRAVIS_BUILD_DIR}"
   - docker-compose run app npm run build
+  - sudo chgrp -R root "${TRAVIS_BUILD_DIR}"
 
 script:
-  - docker-compose run -u travis test
+  - docker-compose run test
 
 before_deploy:
   - sudo chown -R travis:travis "${TRAVIS_BUILD_DIR}/www"
