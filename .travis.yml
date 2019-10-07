@@ -6,7 +6,7 @@ services:
 
 install:
   - cd "${TRAVIS_BUILD_DIR}"
-  - docker-compose run app npm run build
+  - docker-compose run test npm run build
   - sudo chgrp -R root "${TRAVIS_BUILD_DIR}"
 
 script:
