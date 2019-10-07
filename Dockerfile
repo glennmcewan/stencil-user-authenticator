@@ -26,14 +26,11 @@ COPY --from=builder node_modules node_modules
 
 COPY . .
 
-# Install puppeteer so it's available in the container.
 # Add user so we don't need --no-sandbox.
 # same layer as npm install to keep re-chowned files from using up several hundred MBs more space
-RUN npm i puppeteer \
-    && groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
+RUN groupadd -r pptruser && useradd -r -g pptruser -G root,audio,video pptruser \
     && mkdir -p /home/pptruser/Downloads \
-    && chown -R pptruser:pptruser /home/pptruser \
-    && chgrp -R pptruser /usr/src/app
+    && chown -R pptruser:pptruser /home/pptruser
 
 # Run everything after as non-privileged user.
 USER pptruser
