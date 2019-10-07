@@ -9,7 +9,7 @@ install:
   - docker-compose run app npm run build
 
 script:
-  - docker-compose up test
+  - docker-compose up test --exit-code-from test
 
 before_deploy:
   - sudo chown -R travis:travis "${TRAVIS_BUILD_DIR}/www"
