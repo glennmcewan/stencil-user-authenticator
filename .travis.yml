@@ -4,6 +4,9 @@ node_js:
 services:
   - docker
 
+before_install:
+  - export USER_ID="$(id -u)";export GROUP_ID="$(id -g)";
+
 install:
   - cd "${TRAVIS_BUILD_DIR}"
   - docker-compose run test npm run build
