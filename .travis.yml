@@ -4,12 +4,16 @@ node_js:
 services:
   - docker
 
+before_install:
+  - export USER_ID="$(id -u)";export GROUP_ID="$(id -g)";
+
 install:
   - cd "${TRAVIS_BUILD_DIR}"
-  - docker-compose run app npm run build
+  - docker-compose run test npm run build
+  - sudo chgrp -R root "${TRAVIS_BUILD_DIR}"
 
 script:
-  - docker-compose up test
+  - docker-compose run test
 
 before_deploy:
   - sudo chown -R travis:travis "${TRAVIS_BUILD_DIR}/www"
