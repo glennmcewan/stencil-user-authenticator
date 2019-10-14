@@ -1,9 +1,6 @@
 import { Component, h, State } from "@stencil/core";
-import { ValidationState } from "../../validation/ValidationState";
-import { FormTemplatingService } from "../../services/FormTemplatingService";
-import { FormService, FormInputCollectionInterface, FormInput } from "../../services/FormService";
-import { Constraints } from "../../validation/Constraints";
-import { ValidationService } from "../../validation/ValidationService";
+import { FormService, FormTemplatingService, FormInputCollectionInterface, FormInput } from "../../services/Form";
+import { ValidationState, Constraints, ValidationService } from "../../services/Validation";
 
 @Component({
   tag: 'login-form'
@@ -46,6 +43,7 @@ export class LoginForm {
   private validateComponent() {
     this.validationState = this.service.validateForm();
   }
+
   render() {
     return (
       <form onSubmit={event => this.handleSubmit(event)}>

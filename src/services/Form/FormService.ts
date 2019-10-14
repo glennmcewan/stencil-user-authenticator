@@ -1,7 +1,4 @@
-import { ValidationState } from "../validation/ValidationState";
-import { ValidationService } from "../validation/ValidationService";
-import { ValidationSubjectInterface } from "../validation/ValidationSubjectInterface";
-import { ConstraintInterface } from "../validation/ConstraintInterface";
+import { ValidationService, ValidationState, ValidationSubjectInterface, ConstraintInterface } from "../Validation";
 
 export class FormService {
   private validator: ValidationService;
@@ -28,7 +25,7 @@ export class FormService {
       return false;
     }
 
-    return this.state.getErrors().length === 0;
+    return this.state.isValid();
   }
 
   getState(): ValidationState {
@@ -39,7 +36,7 @@ export class FormService {
     return this.inputs[identifier];
   }
 
-  setInputValue(identifier: string, value: any) {
+  setInputValue(identifier: string, value: any): void {
     this.inputs[identifier].value = value;
   }
 
@@ -52,10 +49,10 @@ export class FormService {
   }
 
   getClassesForInput(identifier: string): string {
-    let classes = ['form-control'];
+    const classes = ['form-control'];
 
     if (null !== this.getInput(identifier).value) {
-      let errors = this.state.getErrorsFor(identifier);
+      const errors = this.state.getErrorsFor(identifier);
       classes.push(errors.length > 0 ? 'is-invalid' : 'is-valid');
     }
 
