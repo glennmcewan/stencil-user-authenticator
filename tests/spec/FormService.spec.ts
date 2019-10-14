@@ -1,6 +1,5 @@
-import { FormService, FormInputCollectionInterface, FormInput } from '../../src/services/FormService';
-import { ValidationService } from '../../src/validation/ValidationService';
-import { Constraints } from '../../src/validation/Constraints';
+import { Constraints, ValidationService } from "../../src/services/Validation";
+import { FormService, FormInput, FormInputCollectionInterface } from '../../src/services/Form';
 
 describe('FormService', () => {
   const getInputMap: () => FormInputCollectionInterface = (): FormInputCollectionInterface => {
@@ -51,6 +50,10 @@ describe('FormService', () => {
 
     expect(service.getClassesForInput('email')).toEqual('form-control is-valid');
     expect(service.getClassesForInput('password')).toEqual('form-control');
+
+    service.setInputValue('password', 'invalid');
+
+    expect(service.getClassesForInput('password')).toEqual('form-control is-invalid');
   });
 
   it('should not consider an input to have no errors if it has not been modified', () => {

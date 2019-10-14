@@ -1,4 +1,4 @@
-import { ValidationState } from "../../src/validation/ValidationState";
+import { ValidationState } from '../../src/services/Validation';
 
 describe('ValidationState', () => {
     it('is valid if no errors', () => {

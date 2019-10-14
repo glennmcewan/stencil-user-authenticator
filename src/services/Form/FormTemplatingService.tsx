@@ -1,7 +1,6 @@
-import { h } from "@stencil/core";
-import { FormService } from "./FormService";
-import { ValidationErrorInterface } from "../validation/ValidationErrorInterface";
-import { ValidationSubjectInterface } from "../validation/ValidationSubjectInterface";
+import { h } from '@stencil/core';
+import { FormService } from './FormService';
+import { ValidationSubjectInterface, ValidationErrorInterface } from '../Validation';
 
 export class FormTemplatingService {
   private service: FormService;

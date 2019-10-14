@@ -1,5 +1,4 @@
-import { Constraints } from "../../src/validation/Constraints";
-import { ConstraintInterface } from "../../src/validation/ConstraintInterface";
+import { Constraints, ConstraintInterface } from "../../src/services/Validation";
 
 describe('Constraints', () => {
     it('should validate a name', () => {

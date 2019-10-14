@@ -1,9 +1,5 @@
-import { newSpecPage } from '@stencil/core/testing';
-import { FormService, FormInputCollectionInterface, FormInput } from '../../src/services/FormService';
-import { FormTemplatingService } from '../../src/services/FormTemplatingService';
-import { ValidationService } from '../../src/validation/ValidationService';
-import { Constraints } from '../../src/validation/Constraints';
-import { JSXElement } from '@babel/types';
+import { FormInputCollectionInterface, FormInput, FormTemplatingService, FormService } from '../../src/services/Form';
+import { Constraints, ValidationService } from '../../src/services/Validation';
 
 describe('FormService', () => {
     const getInputMap: () => FormInputCollectionInterface = (): FormInputCollectionInterface => {

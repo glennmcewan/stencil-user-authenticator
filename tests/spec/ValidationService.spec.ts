@@ -1,6 +1,4 @@
-import { ValidationService } from '../../src/validation/ValidationService';
-import { Constraints } from '../../src/validation/Constraints';
-import { ValidationState } from '../../src/validation/ValidationState';
+import { Constraints, ValidationService, ValidationState } from '../../src/services/Validation';
 
 describe('FormService', () => {
   it('validate returns validation state', () => {

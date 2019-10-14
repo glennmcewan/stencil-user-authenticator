@@ -1,7 +1,4 @@
-import { ValidationState } from "../validation/ValidationState";
-import { ValidationService } from "../validation/ValidationService";
-import { ValidationSubjectInterface } from "../validation/ValidationSubjectInterface";
-import { ConstraintInterface } from "../validation/ConstraintInterface";
+import { ValidationService, ValidationState, ValidationSubjectInterface, ConstraintInterface } from "../Validation";
 
 export class FormService {
   private validator: ValidationService;

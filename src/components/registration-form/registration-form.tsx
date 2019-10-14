@@ -1,9 +1,6 @@
 import { Component, h, State } from "@stencil/core";
-import { ValidationService } from "../../validation/ValidationService";
-import { ValidationState } from "../../validation/ValidationState";
-import { Constraints } from "../../validation/Constraints";
-import { FormService, FormInputCollectionInterface, FormInput } from "../../services/FormService";
-import { FormTemplatingService } from "../../services/FormTemplatingService";
+import { FormService, FormTemplatingService, FormInputCollectionInterface, FormInput } from "../../services/Form";
+import { ValidationState, Constraints, ValidationService } from "../../services/Validation";
 
 @Component({
   tag: 'registration-form'
