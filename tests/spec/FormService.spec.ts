@@ -11,7 +11,6 @@ describe('FormService', () => {
   };
 
   it('builds', () => {
-
     expect(new FormService(new ValidationService, getInputMap())).toBeTruthy();
   });
 
@@ -52,5 +51,20 @@ describe('FormService', () => {
 
     expect(service.getClassesForInput('email')).toEqual('form-control is-valid');
     expect(service.getClassesForInput('password')).toEqual('form-control');
+  });
+
+  it('should not consider an input to have no errors if it has not been modified', () => {
+    const service = new FormService(new ValidationService, getInputMap());
+
+    service.setInputValue('email', 'me@example.org');
+
+    service.validateForm();
+
+    expect(service.inputHasErrors('email')).toEqual(false);
+    expect(service.inputHasErrors('password')).toEqual(false);
+
+    service.setInputValue('password', 'invalid');
+
+    expect(service.inputHasErrors('password')).toEqual(true);
   });
 });

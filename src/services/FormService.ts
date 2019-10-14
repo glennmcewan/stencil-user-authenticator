@@ -39,7 +39,7 @@ export class FormService {
     return this.inputs[identifier];
   }
 
-  setInputValue(identifier: string, value: any) {
+  setInputValue(identifier: string, value: any): void {
     this.inputs[identifier].value = value;
   }
 

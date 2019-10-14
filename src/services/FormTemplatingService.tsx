@@ -1,17 +1,20 @@
 import { h } from "@stencil/core";
 import { FormService } from "./FormService";
 import { ValidationErrorInterface } from "../validation/ValidationErrorInterface";
+import { ValidationSubjectInterface } from "../validation/ValidationSubjectInterface";
 
 export class FormTemplatingService {
-  private service;
+  private service: FormService;
 
   constructor(service: FormService) {
     this.service = service;
   }
 
   renderErrorsForInput(identifier: string) {
-    if (null === this.service.getInput(identifier).value) {
-      return;
+    const input: ValidationSubjectInterface = this.service.getInput(identifier);
+
+    if (!input || null === input.value) {
+      return null;
     }
 
     return (
