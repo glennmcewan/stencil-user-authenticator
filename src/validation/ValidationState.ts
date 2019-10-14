@@ -16,6 +16,6 @@ export class ValidationState {
   }
 
   isValid(): boolean {
-    return this.errors.length > 0;
+    return this.errors.length === 0;
   }
 }

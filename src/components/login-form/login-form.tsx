@@ -46,6 +46,7 @@ export class LoginForm {
   private validateComponent() {
     this.validationState = this.service.validateForm();
   }
+
   render() {
     return (
       <form onSubmit={event => this.handleSubmit(event)}>

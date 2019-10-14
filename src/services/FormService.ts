@@ -28,7 +28,7 @@ export class FormService {
       return false;
     }
 
-    return this.state.getErrors().length === 0;
+    return this.state.isValid();
   }
 
   getState(): ValidationState {
@@ -52,10 +52,10 @@ export class FormService {
   }
 
   getClassesForInput(identifier: string): string {
-    let classes = ['form-control'];
+    const classes = ['form-control'];
 
     if (null !== this.getInput(identifier).value) {
-      let errors = this.state.getErrorsFor(identifier);
+      const errors = this.state.getErrorsFor(identifier);
       classes.push(errors.length > 0 ? 'is-invalid' : 'is-valid');
     }
 
