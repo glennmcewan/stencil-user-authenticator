@@ -1,0 +1,1 @@
+System.register(["./p-ac8a95e7.system.js"],(function(){"use strict";var t,e;return{setters:[function(a){t=a.p;e=a.b}],execute:function(){t().then((function(t){return e([["p-v5julxe0.system",[[0,"user-authenticator",{defaultTab:[1,"default-tab"]}],[0,"login-form",{validationState:[32]}],[0,"registration-form",{validationState:[32]}]]]],t)}))}}}));
