@@ -18,9 +18,9 @@ script:
 before_deploy:
   - sudo chown -R travis:travis "${TRAVIS_BUILD_DIR}/www"
   - |
-    sed -i "s|href=\"/|href=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
+    sed -i "s|href=\"/|href=\"/${TRAVIS_REPO_SLUG#*/}/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
   - |
-    sed -i "s|src=\"/|src=\"/stencil-user-authenticator/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
+    sed -i "s|src=\"/|src=\"/${TRAVIS_REPO_SLUG#*/}/|g" "${TRAVIS_BUILD_DIR}/www/index.html"
 
 deploy:
   provider: pages
